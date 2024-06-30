@@ -1,0 +1,35 @@
+﻿@model List<AspDotNetCoreApp_2_to_4.Models.AuthorModel>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+@*All the data sent from controller are stored inside Model properties*@
+<head>
+    <title></title>
+</head>
+<body>
+    <h2>Hello, This is Author View.</h2>
+    <hr />
+    <table>
+        <thead>
+            <tr>
+                <th>Author Id</th>
+                <th>Author Name</th>
+                <th>Email Address</th>
+                <th>Contact Number</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.AuthorId</td>
+                    <td>@item.AuthorName</td>
+                    <td>@item.EmailAddress</td>
+                    <td>@item.Mobile</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
