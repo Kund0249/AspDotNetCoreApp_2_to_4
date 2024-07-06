@@ -1,0 +1,38 @@
+﻿@model List<CoreWebApp_2_4.Models.PublisherModel>
+<html>
+<head>
+    <title>Publisher</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Publisher Name</th>
+                <th>Email Address</th>
+                <th>Contact Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.PublisherName</td>
+                        <td>@item.EmailAddress</td>
+                        <td>@item.ContactNo</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3">
+                        There is no data!
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
