@@ -45,8 +45,31 @@ namespace CoreWebApp_2_4.Controllers
         [HttpPost]
         public IActionResult Create(PublisherModel model)
         {
-            _publisherRepository.Save(PublisherModel.Convert(model));
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                _publisherRepository.Save(PublisherModel.Convert(model));
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                //ViewBag.Message = "Please enter valid values";
+                //ViewData["Message"] = "Please enter valid values";
+                
+                ViewBag.Message = new string[]
+                {
+                    "Name should not be more than 50 char.",
+                    "Email address must be valid email address",
+                    "Contact number should not exceed 10 digit"
+                };
+
+                ViewData["Message"] = new string[]
+                {
+                    "Name should not be more than 50 char.",
+                    "Email address must be valid email address",
+                    "Contact number should not exceed 10 digit"
+                };
+                return View(model);
+            }
         }
     }
 }

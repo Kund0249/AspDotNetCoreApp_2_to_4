@@ -11,5 +11,7 @@ namespace CoreWebApp_2_4.DataAccess.Entities
         public string PublisherName { get; set; }
         public string EmailAddress { get; set; }
         public string ContactNo { get; set; }
+
+        //public int? Age { get; set; }
     }
 }

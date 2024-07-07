@@ -7,8 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\_ViewImports.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CoreWebApp_2_4.DataAccess\CoreWebApp_2_4.DataAccess.csproj" />
     <ProjectReference Include="..\CoreWebApp_2_4.Models\CoreWebApp_2_4.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\_ViewImports.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\_ViewImports.cshtml" />
   </ItemGroup>
 
 </Project>

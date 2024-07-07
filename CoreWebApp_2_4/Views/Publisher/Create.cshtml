@@ -1,4 +1,8 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+﻿//@using CoreWebApp_2_4.Models
+@model CoreWebApp_2_4.Models.PublisherModel
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
 </head>
@@ -8,19 +12,19 @@
             <tr>
                 <th>Name</th>
                 <th>
-                    <input type="text" name="PublisherName" />
+                    <input asp-for="PublisherName" />
                 </th>
             </tr>
             <tr>
                 <th>Email</th>
                 <th>
-                    <input type="text" name="EmailAddress" />
+                    <input asp-for="EmailAddress" />
                 </th>
             </tr>
             <tr>
                 <th>Contact Number</th>
                 <th>
-                    <input type="text" name="ContactNo" />
+                    <input asp-for="ContactNo" />
                 </th>
             </tr>
             <tr>
@@ -32,7 +36,24 @@
                 </td>
             </tr>
         </table>
+        <br />
+        @if (ViewBag.Message != null && ViewData["Message"] != null)
+        {
+            @* <ol>
+                @foreach (var item in ViewBag.Message)
+                {
+                    <li> <span style="color:red;">@item</span></li>
+                }
+            </ol> *@
+            <hr />
+              <ol>
+                @foreach (var item in (string[])ViewData["Message"])
+                {
+                <li> <span style="color:orange;">@item</span></li>
+                }
+             </ol>
+        }
     </form>
-    
+
 </body>
 </html>

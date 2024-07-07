@@ -6,6 +6,7 @@ namespace CoreWebApp_2_4.Controllers
     {
         public string Index()
         {
+            //
             return "Hello from home-Index";
         }
     }
