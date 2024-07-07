@@ -5,7 +5,7 @@ builder.Services.AddMvc();
 var app = builder.Build();
 
 //Add your middlewares
-app.UseDeveloperExceptionPage();
+//app.UseDeveloperExceptionPage();
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
