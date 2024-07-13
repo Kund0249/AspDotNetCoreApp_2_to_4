@@ -1,11 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 //Add your Services
-builder.Services.AddMvc();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
 //Add your middlewares
 //app.UseDeveloperExceptionPage();
+app.UseStaticFiles();
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {

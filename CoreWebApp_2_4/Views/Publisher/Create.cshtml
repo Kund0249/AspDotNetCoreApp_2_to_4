@@ -1,12 +1,13 @@
-﻿//@using CoreWebApp_2_4.Models
-@model CoreWebApp_2_4.Models.PublisherModel
-@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@model PublisherModel
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
+
+@{
+    ViewBag.PageHeading = "Publisher Registration";
+    ViewBag.Title = "Registration";
+}
+<div class="col-8 offset-2">
+
+
     <form method="post">
         <table>
             <tr>
@@ -54,6 +55,5 @@
              </ol>
         }
     </form>
+</div>
 
-</body>
-</html>
