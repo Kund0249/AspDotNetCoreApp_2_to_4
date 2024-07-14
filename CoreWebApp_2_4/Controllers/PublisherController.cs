@@ -1,27 +1,67 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CoreWebApp_2_4.Models;
+using CoreWebApp_2_4.Model;
 using CoreWebApp_2_4.DataAccess.Repositories;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using CoreWebApp_2_4.DataAccess.Data;
+using System.Reflection;
 
 namespace CoreWebApp_2_4.Controllers
 {
     public class PublisherController : BaseController
     {
-        private readonly PublisherRepository _publisherRepository;
-        public PublisherController()
+        //private readonly PublisherRepository _publisherRepository;
+        public readonly DataContext _dbcontext;
+        public PublisherController(DataContext context)
         {
-            _publisherRepository = new PublisherRepository();
+            //_publisherRepository = new PublisherRepository();
+            _dbcontext = context;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int pageno = 1)
         {
+            if (pageno <= 0)
+                pageno = 1;
+
            List<PublisherModel> models = new List<PublisherModel>();
-            
-            var data = _publisherRepository.Publishers;
-            if(data != null)
+
+            int CurrentPageNo = pageno;//10
+            int PageSize = 3;
+
+            int TotalItems = _dbcontext.Publishers.Count();
+            int TotalPage = (int)Math.Ceiling((decimal)TotalItems / PageSize);//11
+
+            if (CurrentPageNo > TotalPage)
+                CurrentPageNo = 1;
+
+            var data = _dbcontext.Publishers.Skip((CurrentPageNo-1)* PageSize).Take(PageSize).ToList();
+
+           
+
+           
+
+            int startpage = CurrentPageNo - 5; //5
+            int endpage = CurrentPageNo + 4; //11
+
+            if(startpage <= 0)
+            {
+                endpage = endpage - (startpage - 1);
+                startpage = 1;
+            }
+            if(endpage > TotalPage)
+            {
+                endpage = TotalPage;
+
+                if((endpage - startpage) < 9)
+                {
+                    startpage = endpage - 9;
+                }
+            }
+
+            if (data != null)
             {
                 if(data.Count > 0)
                 {
@@ -29,11 +69,19 @@ namespace CoreWebApp_2_4.Controllers
                 }
             }
 
+            PaginationModel pagination = new PaginationModel()
+            {
+                CurrentPage = CurrentPageNo,
+                TotalPage = TotalPage,
+                EndPage = endpage,
+                StartPage = startpage
+            };
             //if(TempData["Message"] != null)
             //{
             //    ViewBag.Message = TempData["Message"];
             //}
 
+            ViewBag.Pagenition = pagination;
             return View(models);
         }
 
@@ -54,7 +102,8 @@ namespace CoreWebApp_2_4.Controllers
         {
             if (ModelState.IsValid)
             {
-                _publisherRepository.Save(PublisherModel.Convert(model));
+                _dbcontext.Add(PublisherModel.Convert(model));
+                _dbcontext.SaveChanges();
                 ShowNotification("Data Save", "Record save successfully!", NotificationType.success);
 
                 //var notificationMessage = new

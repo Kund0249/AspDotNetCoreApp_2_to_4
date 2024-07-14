@@ -1,12 +1,46 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "Publisher List";
     ViewBag.PageHeading = "Publisher Information";
+
+    PaginationModel pagination = new PaginationModel();
+
+    if (ViewBag.Pagenition != null)
+    {
+        pagination = ViewBag.Pagenition;
+    }
 }
 
 
 
+<div class="col-8 offset-2 mb-5 mt-5">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            @if (pagination.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-asp-controller="Publisher" asp-route-pageno="@(pagination.CurrentPage-1)">
+                        Previous
+
+                    </a></li>
+            }
+
+            @for (int i = pagination.StartPage; i <= pagination.EndPage; i++)
+            {
+                <li class="page-item @(i == pagination.CurrentPage ? "active" : "")">
+                    <a asp-action="Index" asp-asp-controller="Publisher" asp-route-pageno="@i" class="page-link">
+                        @i
+                    </a>
+                </li>
+            }
+         
+            @if (pagination.CurrentPage < pagination.EndPage)
+            {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-asp-controller="Publisher" asp-route-pageno="@(pagination.CurrentPage+1)">Next</a></li>
+            }
+
+        </ul>
+    </nav>
+</div>
 <div class="col-8 offset-2">
     <table class="table">
         <thead>
@@ -40,6 +74,5 @@
 
     </table>
 </div>
-  
 
-   
+

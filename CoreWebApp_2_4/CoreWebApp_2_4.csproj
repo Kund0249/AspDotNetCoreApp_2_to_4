@@ -13,6 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.32">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CoreWebApp_2_4.DataAccess\CoreWebApp_2_4.DataAccess.csproj" />
     <ProjectReference Include="..\CoreWebApp_2_4.Models\CoreWebApp_2_4.Models.csproj" />
   </ItemGroup>
