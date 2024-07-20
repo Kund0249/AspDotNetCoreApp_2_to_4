@@ -10,6 +10,8 @@ namespace CoreWebApp_2_4.Models
 {
     public class PublisherModel
     {
+
+        public int PublisherId { get; set; }
         [Required]
         [StringLength(50)]
         public string PublisherName { get; set; }
@@ -26,6 +28,7 @@ namespace CoreWebApp_2_4.Models
         {
             return new PublisherModel
             {
+                PublisherId = publisher.PublisherId,
                 PublisherName = publisher.PublisherName,
                 EmailAddress = publisher.EmailAddress,
                 ContactNo = publisher.ContactNo
@@ -35,6 +38,7 @@ namespace CoreWebApp_2_4.Models
         {
             return new Publisher
             {
+                PublisherId = publisher.PublisherId,
                 PublisherName = publisher.PublisherName,
                 EmailAddress = publisher.EmailAddress,
                 ContactNo = publisher.ContactNo

@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using CoreWebApp_2_4.DataAccess.Data;
 using System.Reflection;
+using CoreWebApp_2_4.DataAccess.Entities;
 
 namespace CoreWebApp_2_4.Controllers
 {
@@ -26,61 +27,17 @@ namespace CoreWebApp_2_4.Controllers
             if (pageno <= 0)
                 pageno = 1;
 
-           List<PublisherModel> models = new List<PublisherModel>();
-
-            int CurrentPageNo = pageno;//10
-            int PageSize = 3;
-
+            List<PublisherModel> models = new List<PublisherModel>();
             int TotalItems = _dbcontext.Publishers.Count();
-            int TotalPage = (int)Math.Ceiling((decimal)TotalItems / PageSize);//11
-
-            if (CurrentPageNo > TotalPage)
-                CurrentPageNo = 1;
-
-            var data = _dbcontext.Publishers.Skip((CurrentPageNo-1)* PageSize).Take(PageSize).ToList();
-
-           
-
-           
-
-            int startpage = CurrentPageNo - 5; //5
-            int endpage = CurrentPageNo + 4; //11
-
-            if(startpage <= 0)
-            {
-                endpage = endpage - (startpage - 1);
-                startpage = 1;
-            }
-            if(endpage > TotalPage)
-            {
-                endpage = TotalPage;
-
-                if((endpage - startpage) < 9)
-                {
-                    startpage = endpage - 9;
-                }
-            }
-
+            PaginationModel pagination = new PaginationModel(pageno, TotalItems,5);
+            var data = _dbcontext.Publishers.Skip((pagination.CurrentPage - 1) * pagination.PageSize).Take(pagination.PageSize).ToList();
             if (data != null)
             {
-                if(data.Count > 0)
+                if (data.Count > 0)
                 {
                     models = data.Select(x => PublisherModel.Convert(x)).ToList();
                 }
             }
-
-            PaginationModel pagination = new PaginationModel()
-            {
-                CurrentPage = CurrentPageNo,
-                TotalPage = TotalPage,
-                EndPage = endpage,
-                StartPage = startpage
-            };
-            //if(TempData["Message"] != null)
-            //{
-            //    ViewBag.Message = TempData["Message"];
-            //}
-
             ViewBag.Pagenition = pagination;
             return View(models);
         }
@@ -96,7 +53,7 @@ namespace CoreWebApp_2_4.Controllers
         //{
         //    return View();
         //}
-         
+
         [HttpPost]
         public IActionResult Create(PublisherModel model)
         {
@@ -137,6 +94,69 @@ namespace CoreWebApp_2_4.Controllers
                 };
                 return View(model);
             }
+        }
+
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Publisher model = _dbcontext.Publishers.SingleOrDefault(x => x.PublisherId == id);
+            if (model == null)
+            {
+                ShowNotification("Not Found", "Record not found!", NotificationType.error);
+                return RedirectToAction(nameof(Index));
+            }
+
+            PublisherModel Viewmodel = PublisherModel.Convert(model);
+            
+
+            return View(Viewmodel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(PublisherModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Publisher _publisher = _dbcontext.Publishers.SingleOrDefault(x => x.PublisherId == model.PublisherId);
+                if (_publisher == null)
+                {
+                    ShowNotification("Not Found", "Record not found!", NotificationType.error);
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _publisher.PublisherName = model.PublisherName;
+                _publisher.EmailAddress = model.EmailAddress;
+                _publisher.ContactNo = model.ContactNo;
+                _dbcontext.SaveChanges();
+
+                ShowNotification("Data Save", "Record Updated successfully!", NotificationType.success);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                ShowNotification("Inavlid Data", "Data is invalid!", NotificationType.error);
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            Publisher model = _dbcontext.Publishers.SingleOrDefault(x => x.PublisherId == id);
+            if (model == null) {
+                ShowNotification("Not Found","Record not found!",NotificationType.error);
+              
+            }
+            else
+            {
+                _dbcontext.Publishers.Remove(model);
+                _dbcontext.SaveChanges();
+                ShowNotification("Removed", "Record delete successfully!", NotificationType.success);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

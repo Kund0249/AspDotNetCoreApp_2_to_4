@@ -1,0 +1,44 @@
+﻿@model PublisherModel
+
+
+@{
+    ViewBag.PageHeading = "Publisher Edit";
+    ViewBag.Title = "Modify Publisher";
+}
+<div class="col-8 offset-2">
+
+
+    <form method="post">
+        <input type="hidden" asp-for="PublisherId" />
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>
+                    <input asp-for="PublisherName" class="form-control" />
+                </th>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <th>
+                    <input asp-for="EmailAddress" class="form-control" />
+                </th>
+            </tr>
+            <tr>
+                <th>Contact Number</th>
+                <th>
+                    <input asp-for="ContactNo" class="form-control" />
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Save" class="btn btn-primary btn-block"/>
+                </td>
+                <td>
+                    <input type="reset" value="Clear" class="btn btn-danger btn-block"/>
+                </td>
+            </tr>
+        </table>
+      
+    </form>
+</div>
+

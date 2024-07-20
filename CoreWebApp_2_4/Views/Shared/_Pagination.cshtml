@@ -1,0 +1,41 @@
+﻿@model Pager
+
+
+@{
+    PaginationModel pagination = new PaginationModel();
+
+    if (Model != null)
+    {
+        pagination = Model.Pagination;
+    }
+}
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        @if (pagination.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="@Model.ActionName" asp-controller="@Model.ControllerName" asp-route-pageno="@(pagination.CurrentPage-1)">
+                    Previous
+
+                </a>
+            </li>
+        }
+
+        @for (int i = pagination.StartPage; i <= pagination.EndPage; i++)
+        {
+            <li class="page-item @(i == pagination.CurrentPage ? "active" : "")">
+                <a asp-action="@Model.ActionName" asp-controller="@Model.ControllerName". asp-route-pageno="@i" class="page-link">
+                    @i
+                </a>
+            </li>
+        }
+
+        @if (pagination.CurrentPage < pagination.EndPage)
+        {
+            <li class="page-item"><a class="page-link" asp-action="@Model.ActionName" asp-controller="@Model.ControllerName" asp-route-pageno="@(pagination.CurrentPage+1)">Next</a></li>
+        }
+
+    </ul>
+</nav>
+
